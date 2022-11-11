@@ -2,6 +2,7 @@ import os
 
 from dotenv import load_dotenv
 import psycopg2
+from config import host, db, user, password
 
 load_dotenv()
 
@@ -24,11 +25,6 @@ create_table = f"""
 indexes = [
     f"CREATE INDEX IF NOT EXISTS {table_name}_key_idx ON {table_name} (key);",
 ]
-
-host = os.environ.get("DATABASE_HOST")
-db = os.environ.get("DATABASE_NAME")
-user = os.environ.get("DATABASE_USER")
-password = os.environ.get("DATABASE_PASSWORD")
 
 try:
     connection = psycopg2.connect(
