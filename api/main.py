@@ -32,6 +32,6 @@ def create_api_key(item: Item = Body(...)):
     # save hashed_api_key to db
     try:
         save_api_key_to_db(item.user_id, hashed_api_key, item.name, item.description, item.plan)
-    except InsertFailedError as error:
+    except (InsertFailedError, ConnectionError) as error:
         return {"error": str(error)}, HTTPStatus.INTERNAL_SERVER_ERROR.value
     return {"api_key": api_key, "hashed_api_key": hashed_api_key}
