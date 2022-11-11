@@ -1,2 +1,2 @@
 start:
-	uvicorn main:app --reload
+	uvicorn api.main:app --reload
