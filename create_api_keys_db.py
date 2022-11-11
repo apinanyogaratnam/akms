@@ -1,5 +1,3 @@
-import os
-
 from dotenv import load_dotenv
 import psycopg2
 from config import host, db, user, password
