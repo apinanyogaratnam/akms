@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 akms-hash = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
