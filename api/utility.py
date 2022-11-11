@@ -15,6 +15,10 @@ def save_api_key_to_db(user_id: str, hashed_api_key: str, name: str, description
             password=password
         )
         cursor = connection.cursor()
+    except psycopg2.Error as error:
+        raise ConnectionError(error)
+
+    try:
         insert_query = """
             INSERT INTO api_keys (
                 user_id,
