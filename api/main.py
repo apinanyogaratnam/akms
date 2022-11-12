@@ -42,5 +42,5 @@ class ApiKey(BaseModel):
 
 
 @app.post("/validate_api_key")
-def validate_api_key(api_key: ApiKey = Body(...)):
-    return {"is_valid": is_valid_api_key(api_key)}
+def validate_api_key(item: ApiKey = Body(...)):
+    return {"is_valid": is_valid_api_key(item.api_key)}
