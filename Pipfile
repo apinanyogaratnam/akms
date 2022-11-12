@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-akms-hash = "==0.2.1"
+akms-hash = "==0.2.2"
 python-dotenv = "*"
 fastapi = "*"
 uvicorn = {extras = ["standard"], version = "*"}
