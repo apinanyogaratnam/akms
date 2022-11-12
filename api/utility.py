@@ -1,6 +1,6 @@
 import psycopg2
 from config import host, db, user, password
-from akms_hash import hash_api_key
+from akms_hash import hash_api_key, verify_api_key
 import pandas as pd
 
 
@@ -53,9 +53,10 @@ def is_valid_api_key(api_key: str) -> bool:
         password=password
     )
     query_api_key = """
-        SELECT key FROM api_keys WHERE key = %s;
+        SELECT key FROM api_keys;
     """
     df = pd.read_sql(query_api_key, connection, params=(hashed_api_key,))
     connection.close()
-
-    return not df.empty
+    api_keys = df['key'].tolist()
+    is_key_valid = any([verify_api_key(hashed_api_key, api_key) for api_key in api_keys])
+    return is_key_valid
