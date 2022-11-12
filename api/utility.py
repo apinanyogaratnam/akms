@@ -16,6 +16,7 @@ def save_api_key_to_db(user_id: str, hashed_api_key: str, name: str, description
         )
         cursor = connection.cursor()
     except psycopg2.Error as error:
+        print(error)
         raise ConnectionError(error)
 
     try:
