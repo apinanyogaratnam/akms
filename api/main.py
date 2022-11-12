@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Body
+from fastapi import FastAPI, Body, HTTPException
 from pydantic import BaseModel, Field
 from akms_hash import hash_api_key
 from uuid import uuid4
@@ -33,5 +33,5 @@ def create_api_key(item: Item = Body(...)):
     try:
         save_api_key_to_db(item.user_id, hashed_api_key, item.name, item.description, item.plan)
     except (InsertFailedError, ConnectionError) as error:
-        return {"error": str(error), "status_code": HTTPStatus.INTERNAL_SERVER_ERROR.value}
+        raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(error))
     return {"api_key": api_key, "status_code": HTTPStatus.OK.value}
