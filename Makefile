@@ -1,4 +1,4 @@
-VERSION := 0.1.1
+VERSION := 0.1.2
 IMAGE := akms
 REGISTRY_URL := ghcr.io/apinanyogaratnam/${IMAGE}
 IMAGE_VERSION_NAME := ${REGISTRY_URL}:${VERSION}
