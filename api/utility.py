@@ -56,8 +56,10 @@ def is_valid_api_key(api_key: str) -> bool:
         SELECT key FROM api_keys;
     """
     df = pd.read_sql(query_api_key, connection, params=(hashed_api_key,))
+    print('df', df)
     connection.close()
     stored_api_keys = df['key'].tolist()
+    print('stored_api_keys', stored_api_keys)
     print('stored api keys', stored_api_keys)
-    is_key_valid = any([verify_api_key(stored_api_key, api_key) for stored_api_key in stored_api_keys])
+    is_key_valid = any([verify_api_key(bytes(stored_api_key), api_key) for stored_api_key in stored_api_keys])
     return is_key_valid
