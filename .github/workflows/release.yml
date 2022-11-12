@@ -10,7 +10,6 @@ env:
 
 jobs:
   build:
-    if: ${{ false }}
     name: Build Image
     runs-on: ubuntu-latest
     steps:
