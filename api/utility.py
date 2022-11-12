@@ -32,7 +32,7 @@ def save_api_key_to_db(user_id: str, hashed_api_key: str, name: str, description
                 %s, %s, %s, %s, %s
             );
         """
-
+        print('storing hashed api key', hashed_api_key)
         cursor.execute(insert_query, (user_id, hashed_api_key, name, description, plan))
         connection.commit()
     except Exception as error:
@@ -45,7 +45,7 @@ def save_api_key_to_db(user_id: str, hashed_api_key: str, name: str, description
 
 def is_valid_api_key(api_key: str) -> bool:
     hashed_api_key = hash_api_key(api_key)
-    print('hashed_api_key', hashed_api_key)
+    print('hashing received api key', hashed_api_key)
     connection = psycopg2.connect(
         host=host,
         database=db,
@@ -57,6 +57,7 @@ def is_valid_api_key(api_key: str) -> bool:
     """
     df = pd.read_sql(query_api_key, connection, params=(hashed_api_key,))
     connection.close()
-    api_keys = df['key'].tolist()
-    is_key_valid = any([verify_api_key(hashed_api_key, api_key) for api_key in api_keys])
+    stored_api_keys = df['key'].tolist()
+    print('stored api keys', stored_api_keys)
+    is_key_valid = any([verify_api_key(stored_api_key, api_key) for stored_api_key in stored_api_keys])
     return is_key_valid
