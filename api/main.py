@@ -28,7 +28,7 @@ class Item(BaseModel):
 @app.post("/create_api_key")
 def create_api_key(item: Item = Body(...)):
     api_key = str(uuid4())
-    hashed_api_key = hash_api_key(api_key).decode("utf-8")
+    hashed_api_key = hash_api_key(api_key)
     # save hashed_api_key to db
     try:
         save_api_key_to_db(item.user_id, hashed_api_key, item.name, item.description, item.plan)
