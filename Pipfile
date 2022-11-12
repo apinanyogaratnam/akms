@@ -8,7 +8,6 @@ akms-hash = "==0.2.1"
 python-dotenv = "*"
 fastapi = "*"
 uvicorn = {extras = ["standard"], version = "*"}
-psycopg2 = "*"
 
 [dev-packages]
 flake8 = "*"
