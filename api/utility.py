@@ -44,7 +44,7 @@ def save_api_key_to_db(user_id: str, hashed_api_key: str, name: str, description
 
 
 def is_valid_api_key(api_key: str) -> bool:
-    hashed_api_key = hash_api_key(api_key)
+    hashed_api_key = str(hash_api_key(api_key))
 
     connection = psycopg2.connect(
         host=host,
