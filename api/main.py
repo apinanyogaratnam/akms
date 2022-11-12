@@ -1,9 +1,11 @@
-from fastapi import FastAPI, Body, HTTPException
-from pydantic import BaseModel, Field
-from akms_hash import hash_api_key
-from uuid import uuid4
-from api.utility import save_api_key_to_db, InsertFailedError, is_valid_api_key
 from http import HTTPStatus
+from uuid import uuid4
+
+from akms_hash import hash_api_key
+from fastapi import Body, FastAPI, HTTPException
+from pydantic import BaseModel, Field
+
+from api.utility import InsertFailedError, is_valid_api_key, save_api_key_to_db
 
 app = FastAPI()
 
