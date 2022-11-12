@@ -3,3 +3,7 @@ start:
 
 create_db:
 	python create_api_keys_db.py
+
+format:
+	black .
+	isort .
