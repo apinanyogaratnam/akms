@@ -1,8 +1,8 @@
 from fastapi import FastAPI, Body, HTTPException
 from pydantic import BaseModel, Field
-from akms_hash import hash_api_key, verify_api_key
+from akms_hash import hash_api_key
 from uuid import uuid4
-from api.utility import save_api_key_to_db, InsertFailedError
+from api.utility import save_api_key_to_db, InsertFailedError, is_valid_api_key
 from http import HTTPStatus
 
 app = FastAPI()
@@ -43,4 +43,4 @@ class ApiKey(BaseModel):
 
 @app.post("/validate_api_key")
 def validate_api_key(api_key: ApiKey = Body(...)):
-    return {"is_valid": verify_api_key(api_key)}
+    return {"is_valid": is_valid_api_key(api_key)}
