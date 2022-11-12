@@ -33,7 +33,11 @@ try:
     )
 
     cursor = connection.cursor()
+except psycopg2.Error as error:
+    print("Error while connecting to PostgreSQL", error)
+    exit()
 
+try:
     cursor.execute(drop_table)
     cursor.execute(create_table)
     for index in indexes:
