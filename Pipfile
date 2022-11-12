@@ -9,6 +9,7 @@ python-dotenv = "*"
 fastapi = "*"
 uvicorn = {extras = ["standard"], version = "*"}
 psycopg2-binary = "*"
+pandas = "*"
 
 [dev-packages]
 flake8 = "*"
