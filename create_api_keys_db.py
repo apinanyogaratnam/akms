@@ -22,7 +22,7 @@ create_table = f"""
 """
 
 indexes = [
-    f"CREATE INDEX IF NOT EXISTS {table_name}_key_idx ON {table_name} (key);",
+    f"CREATE INDEX IF NOT EXISTS {table_name}_hashed_api_key_idx ON {table_name} (hashed_api_key);",
 ]
 
 try:
