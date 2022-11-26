@@ -1,3 +1,4 @@
+import warnings
 from http import HTTPStatus
 from uuid import uuid4
 
@@ -6,8 +7,6 @@ from fastapi import Body, FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 from api.utility import InsertFailedError, is_valid_api_key, save_api_key_to_db
-
-import warnings
 
 warnings.filterwarnings("ignore")
 
