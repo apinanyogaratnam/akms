@@ -20,7 +20,7 @@ def save_api_key_to_db(user_id: str, hashed_api_key: str, name: str, description
         insert_query = """
             INSERT INTO api_keys (
                 user_id,
-                key,
+                hashed_api_key,
                 name,
                 description,
                 plan
@@ -42,7 +42,7 @@ def is_valid_api_key(api_key: str) -> bool:
     hashed_api_key = hash_api_key(api_key, api_key)
     connection = psycopg2.connect(host=host, database=db, user=user, password=password)
     query_api_key = f"""
-        SELECT key
+        SELECT hashed_api_key
         FROM api_keys
         WHERE key = {hashed_api_key};
     """
