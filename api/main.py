@@ -7,6 +7,10 @@ from pydantic import BaseModel, Field
 
 from api.utility import InsertFailedError, is_valid_api_key, save_api_key_to_db
 
+import warnings
+
+warnings.filterwarnings("ignore")
+
 app = FastAPI()
 
 
