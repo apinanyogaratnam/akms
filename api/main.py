@@ -14,7 +14,7 @@ class Item(BaseModel):
     user_id: str
     name: str
     description: str | None = Field(default=None, title="The description of the item")
-    plan: str
+    role: str
 
 
 @app.post("/create_api_key")
@@ -23,7 +23,7 @@ def create_api_key(item: Item = Body(...)):
     hashed_api_key = hash_api_key(api_key)
     # save hashed_api_key to db
     try:
-        save_api_key_to_db(item.user_id, hashed_api_key, item.name, item.description, item.plan)
+        save_api_key_to_db(item.user_id, hashed_api_key, item.name, item.description, item.role)
     except (InsertFailedError, ConnectionError) as error:
         raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(error))
     return {"api_key": api_key, "status_code": HTTPStatus.OK.value}

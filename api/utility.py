@@ -9,7 +9,7 @@ class InsertFailedError(Exception):
     pass
 
 
-def save_api_key_to_db(user_id: str, hashed_api_key: str, name: str, description: str, plan: str) -> None:
+def save_api_key_to_db(user_id: str, hashed_api_key: str, name: str, description: str, role: str) -> None:
     try:
         connection = psycopg2.connect(host=host, database=db, user=user, password=password)
         cursor = connection.cursor()
@@ -23,12 +23,12 @@ def save_api_key_to_db(user_id: str, hashed_api_key: str, name: str, description
                 key,
                 name,
                 description,
-                plan
+                role
             ) VALUES (
                 %s, %s, %s, %s, %s
             );
         """
-        cursor.execute(insert_query, (user_id, hashed_api_key, name, description, plan))
+        cursor.execute(insert_query, (user_id, hashed_api_key, name, description, role))
         connection.commit()
     except Exception as error:
         connection.rollback()
