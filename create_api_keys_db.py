@@ -16,7 +16,7 @@ create_table = f"""
         hashed_api_key TEXT NOT NULL,
         name TEXT NOT NULL,
         description TEXT NOT NULL,
-        plan TEXT NOT NULL,
+        role TEXT NOT NULL,
         is_active BOOLEAN DEFAULT TRUE NOT NULL
     );
 """
