@@ -44,7 +44,8 @@ def is_valid_api_key(api_key: str) -> bool:
     query_api_key = f"""
         SELECT hashed_api_key
         FROM api_keys
-        WHERE hashed_api_key = '{hashed_api_key}';
+        WHERE hashed_api_key = '{hashed_api_key}'
+        AND is_active = TRUE;
     """
     results = pd.read_sql(query_api_key, connection)
     connection.close()
