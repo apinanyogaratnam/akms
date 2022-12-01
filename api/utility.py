@@ -53,3 +53,18 @@ def is_valid_api_key(api_key: str) -> Tuple[bool, str]:
     is_valid_key = not results.empty
     role = results["role"].values[0] if is_valid_key else None
     return is_valid_key, role
+
+
+def disable_api_key(user_id: str, name: str) -> None:
+    connection = psycopg2.connect(host=host, database=db, user=user, password=password)
+    cursor = connection.cursor()
+    query = f"""
+        UPDATE api_keys
+        SET is_active = FALSE
+        WHERE user_id = '{user_id}'
+        AND name = '{name}';
+    """
+    cursor.execute(query)
+    connection.commit()
+    cursor.close()
+    connection.close()
