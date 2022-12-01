@@ -6,7 +6,7 @@ from akms_hash import hash_api_key
 from fastapi import Body, FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
-from api.utility import InsertFailedError, is_valid_api_key, save_api_key_to_db
+from api.utility import InsertFailedError, is_valid_api_key, save_api_key_to_db, disable_api_key
 
 warnings.filterwarnings("ignore")
 
@@ -40,3 +40,18 @@ class ApiKey(BaseModel):
 def validate_api_key(item: ApiKey = Body(...)):
     is_valid_key, role = is_valid_api_key(item.api_key)
     return {"is_valid_key": is_valid_key, "role": role, "status_code": HTTPStatus.OK.value}
+
+
+class DeleteApiKey(BaseModel):
+    user_id: str
+    name: str
+
+
+@app.delete("/delete_api_key")
+def delete_api_key(item: ApiKey = Body(...)):
+    try:
+        disable_api_key(item.user_id, item.name)
+    except ConnectionError as error:
+        raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(error)) from error
+
+    return {"status": "success", "status_code": HTTPStatus.OK.value}
