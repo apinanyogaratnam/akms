@@ -13,6 +13,11 @@ warnings.filterwarnings("ignore")
 app = FastAPI()
 
 
+@app.get("/")
+def home():
+    return {'status': 'running'}
+
+
 class Item(BaseModel):
     user_id: str
     name: str
