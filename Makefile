@@ -4,6 +4,10 @@ REGISTRY_URL := ghcr.io/apinanyogaratnam/${IMAGE}
 IMAGE_VERSION_NAME := ${REGISTRY_URL}:${VERSION}
 IMAGE_LATEST_VERSION_NAME := ${REGISTRY_URL}:latest
 
+install:
+	pip install pipenv==2022.11.5
+	pipenv install
+
 start:
 	uvicorn api.main:app --port 8000 --host 0.0.0.0 --reload
 
