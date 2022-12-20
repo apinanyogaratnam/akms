@@ -15,6 +15,9 @@ up:
 	export DOCKER_DEFAULT_PLATFORM=linux/amd64
 	docker-compose up --build
 
+test:
+	pytest .
+
 create_db:
 	python create_api_keys_db.py
 
