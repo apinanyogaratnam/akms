@@ -20,7 +20,8 @@ def test_create_api_key():
     response = client.post("/create_api_key", json={'user_id': user_id, 'name': name, 'description': description, 'role': role})
 
     actual_api_key = response.json()['api_key']
+    actual_status_code = response.json()['status_code']
 
-    assert response.status_code == HTTPStatus.CREATED.value
+    assert actual_status_code == HTTPStatus.CREATED.value
     assert isinstance(actual_api_key, str)
-    assert len(response.json()['api_key']) == 32
+    assert len(response.json()['api_key']) == 36
