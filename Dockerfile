@@ -11,4 +11,4 @@ COPY . .
 RUN pip install pipenv==2022.11.5
 RUN pipenv install --system --deploy --ignore-pipfile
 
-CMD ["pipenv", "run", "python", "main.py"]
+CMD ["python", "main.py"]
