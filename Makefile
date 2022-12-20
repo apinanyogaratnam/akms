@@ -11,6 +11,10 @@ install:
 start:
 	python main.py
 
+up:
+	export DOCKER_DEFAULT_PLATFORM=linux/amd64
+	docker-compose up --build
+
 create_db:
 	python create_api_keys_db.py
 
