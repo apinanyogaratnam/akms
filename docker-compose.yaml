@@ -17,7 +17,7 @@ services:
       - '8000:8000'
     environment:
       - DATABASE_HOST=host.docker.internal
-      - DATABASE_USERNAME=test
+      - DATABASE_USER=test
       - DATABASE_PASSWORD=test
       - DATABASE_NAME=test
 
