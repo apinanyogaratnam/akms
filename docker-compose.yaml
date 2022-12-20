@@ -19,3 +19,7 @@ services:
       - POSTGRESQL_USERNAME=test
       - POSTGRESQL_PASSWORD=test
       - POSTGRESQL_DATABASE=test
+
+volumes:
+  postgresql_data:
+    driver: local
