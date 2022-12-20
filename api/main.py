@@ -34,7 +34,7 @@ def create_api_key(item: Item = Body(...)):
         save_api_key_to_db(item.user_id, hashed_api_key, item.name, item.description, item.role)
     except (InsertFailedError, ConnectionError) as error:
         raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(error))
-    return {"api_key": api_key, "status_code": HTTPStatus.OK.value}
+    return {"api_key": api_key, "status_code": HTTPStatus.CREATED.value}
 
 
 class ApiKey(BaseModel):
