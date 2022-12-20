@@ -1,15 +1,14 @@
-FROM python:3.10.4
+FROM --platform=linux/amd64 python:3.10.4
 
 LABEL org.opencontainers.image.source=https://github.com/apinanyogaratnam/akms
 
 WORKDIR /app
 
-# Copy source code
+# copy all files
 COPY . .
 
-# Install dependencies
-RUN pip install pipenv
-RUN pipenv install
+# install dependencies
+RUN pip install pipenv==2022.11.5
+RUN pipenv install --system --deploy --ignore-pipfile
 
-# Run the application
-CMD ["pipenv", "run", "uvicorn", "api.main:app"]
+CMD ["python", "main.py"]

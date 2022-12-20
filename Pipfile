@@ -10,11 +10,13 @@ fastapi = "*"
 uvicorn = {extras = ["standard"], version = "*"}
 psycopg2-binary = "*"
 pandas = "*"
+httpx = "*"
 
 [dev-packages]
 flake8 = "*"
 black = "*"
 isort = "*"
+pytest = "*"
 
 [requires]
 python_version = "3.10"

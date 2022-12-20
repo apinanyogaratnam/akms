@@ -4,8 +4,18 @@ REGISTRY_URL := ghcr.io/apinanyogaratnam/${IMAGE}
 IMAGE_VERSION_NAME := ${REGISTRY_URL}:${VERSION}
 IMAGE_LATEST_VERSION_NAME := ${REGISTRY_URL}:latest
 
+install:
+	pip install pipenv==2022.11.5
+	pipenv install
+
 start:
-	uvicorn api.main:app --reload
+	python main.py
+
+up:
+	docker-compose up --build
+
+test:
+	pytest .
 
 create_db:
 	python create_api_keys_db.py

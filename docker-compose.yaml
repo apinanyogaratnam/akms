@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  postgresql:
+    image: docker.io/bitnami/postgresql:14
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRESQL_USERNAME=test
+      - POSTGRESQL_PASSWORD=test
+      - POSTGRESQL_DATABASE=test
+    volumes:
+      - 'postgresql_data:/bitnami/postgresql'
+  akms:
+    build: .
+    ports:
+      - '8000:8000'
+    environment:
+      - DATABASE_HOST=host.docker.internal
+      - DATABASE_USER=test
+      - DATABASE_PASSWORD=test
+      - DATABASE_NAME=test
+
+volumes:
+  postgresql_data:
+    driver: local

@@ -14,16 +14,16 @@ create_table = f"""
         created TIMESTAMPTZ DEFAULT timezone('utc', NOW()) NOT NULL,
         user_id TEXT NOT NULL,
         hashed_api_key TEXT NOT NULL,
-        name TEXT UNIQUE NOT NULL,
+        name TEXT NOT NULL,
         description TEXT NOT NULL,
         role TEXT NOT NULL,
-        is_active BOOLEAN DEFAULT TRUE NOT NULL,
-        UNIQUE (user_id, name)
+        is_active BOOLEAN DEFAULT TRUE NOT NULL
     );
 """
 
 indexes = [
-    f"CREATE INDEX IF NOT EXISTS {table_name}_hashed_api_key_idx ON {table_name} (hashed_api_key);",
+    f"CREATE INDEX {table_name}_hashed_api_key_idx ON {table_name} (hashed_api_key);",
+    f"CREATE INDEX {table_name}_user_id_idx ON {table_name} (user_id);",
 ]
 
 try:
