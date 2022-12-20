@@ -10,6 +10,7 @@ fastapi = "*"
 uvicorn = {extras = ["standard"], version = "*"}
 psycopg2-binary = "*"
 pandas = "*"
+httpx = "*"
 
 [dev-packages]
 flake8 = "*"
