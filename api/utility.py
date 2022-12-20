@@ -78,7 +78,8 @@ def query_api_keys(user_id: str) -> List[dict]:
     query_api_keys = '''
         SELECT api_key_id, name, description, role, EXTRACT(EPOCH FROM created)::bigint AS created
         FROM api_keys
-        WHERE user_id = %s;
+        WHERE user_id = %s
+        AND is_active = TRUE;
     '''
     return pd.read_sql(query_api_keys, connection, params=(user_id,)).to_dict(
         orient='records'
