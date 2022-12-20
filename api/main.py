@@ -6,7 +6,7 @@ from akms_hash import hash_api_key
 from fastapi import Body, FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
-from api.utility import InsertFailedError, is_valid_api_key, save_api_key_to_db, disable_api_key
+from api.utility import InsertFailedError, QueryFailedError, is_valid_api_key, save_api_key_to_db, disable_api_key, query_api_keys
 
 warnings.filterwarnings("ignore")
 
@@ -26,7 +26,7 @@ class Item(BaseModel):
 
 
 @app.post("/create_api_key")
-def create_api_key(item: Item = Body(...)):
+def create_api_key(item: Item = Body(...)) -> dict:
     api_key = str(uuid4())
     hashed_api_key = hash_api_key(api_key, api_key)
     # save hashed_api_key to db
@@ -37,26 +37,35 @@ def create_api_key(item: Item = Body(...)):
     return {"api_key": api_key, "status_code": HTTPStatus.CREATED.value}
 
 
+@app.get("/api_keys")
+def get_api_keys(user_id: str) -> dict:
+    try:
+        api_keys = query_api_keys(user_id)
+    except (ConnectionError, QueryFailedError) as error:
+        raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(error))
+
+    return {'api_keys': api_keys, "status_code": HTTPStatus.OK.value}
+
+
 class ApiKey(BaseModel):
     api_key: str
 
 
 @app.post("/validate_api_key")
-def validate_api_key(item: ApiKey = Body(...)):
+def validate_api_key(item: ApiKey = Body(...)) -> dict:
     is_valid_key, role = is_valid_api_key(item.api_key)
     return {"is_valid_key": is_valid_key, "role": role, "status_code": HTTPStatus.OK.value}
 
 
 class DeleteApiKey(BaseModel):
-    user_id: str
-    name: str
+    api_key_id: int
 
 
 @app.delete("/delete_api_key")
-def delete_api_key(item: ApiKey = Body(...)):
+def delete_api_key(item: DeleteApiKey = Body(...)) -> dict:
     try:
-        disable_api_key(item.user_id, item.name)
-    except ConnectionError as error:
+        disable_api_key(item.api_key_id)
+    except Exception as error:
         raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(error)) from error
 
     return {"status": "success", "status_code": HTTPStatus.OK.value}
