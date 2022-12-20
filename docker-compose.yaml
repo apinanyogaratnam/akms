@@ -16,7 +16,7 @@ services:
     ports:
       - 8000:8000
     environment:
-      - DATABASE_HOST=localhost
+      - DATABASE_HOST=host.docker.internal
       - DATABASE_USERNAME=test
       - DATABASE_PASSWORD=test
 
