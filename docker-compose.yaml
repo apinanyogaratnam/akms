@@ -14,7 +14,7 @@ services:
   akms:
     build: .
     ports:
-      - 8000:8000
+      - '8000:8000'
     environment:
       - DATABASE_HOST=host.docker.internal
       - DATABASE_USERNAME=test
