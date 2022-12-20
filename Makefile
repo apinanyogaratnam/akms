@@ -9,7 +9,7 @@ install:
 	pipenv install
 
 start:
-	uvicorn api.main:app --port 8000 --host 0.0.0.0 --reload
+	python main.py
 
 create_db:
 	python create_api_keys_db.py
