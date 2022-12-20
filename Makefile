@@ -5,7 +5,7 @@ IMAGE_VERSION_NAME := ${REGISTRY_URL}:${VERSION}
 IMAGE_LATEST_VERSION_NAME := ${REGISTRY_URL}:latest
 
 start:
-	uvicorn api.main:app --reload
+	uvicorn api.main:app --port 8000 --host 0.0.0.0 --reload
 
 create_db:
 	python create_api_keys_db.py
