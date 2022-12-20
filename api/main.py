@@ -47,6 +47,9 @@ def get_api_keys(user_id: str) -> dict:
     return {'api_keys': api_keys, "status_code": HTTPStatus.OK.value}
 
 
+# TODO: renaming api key names and descriptions
+
+
 class ApiKey(BaseModel):
     api_key: str
 
