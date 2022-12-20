@@ -16,9 +16,9 @@ services:
     ports:
       - 8000:8000
     environment:
-      - POSTGRESQL_USERNAME=test
-      - POSTGRESQL_PASSWORD=test
-      - POSTGRESQL_DATABASE=test
+      - DATABASE_HOST=localhost
+      - DATABASE_USERNAME=test
+      - DATABASE_PASSWORD=test
 
 volumes:
   postgresql_data:
