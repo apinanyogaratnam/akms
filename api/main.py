@@ -33,7 +33,9 @@ def create_api_key(item: Item = Body(...)) -> dict:
     try:
         save_api_key_to_db(item.user_id, hashed_api_key, item.name, item.description, item.role)
     except (InsertFailedError, ConnectionError) as error:
-        raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(error))
+        raise HTTPException(
+            status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(error)
+        ) from error
     return {"api_key": api_key, "status_code": HTTPStatus.CREATED.value}
 
 
@@ -42,7 +44,9 @@ def get_api_keys(user_id: str) -> dict:
     try:
         api_keys = query_api_keys(user_id)
     except (ConnectionError, QueryFailedError) as error:
-        raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(error))
+        raise HTTPException(
+            status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(error)
+        ) from error
 
     return {'api_keys': api_keys, "status_code": HTTPStatus.OK.value}
 
@@ -59,7 +63,9 @@ def update_api_key_metadata(item: UpdateApiKey = Body(...)) -> dict:
     try:
         update_api_key(item.api_key_id, item.name, item.description, item.role)
     except Exception as error:
-        raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(error))
+        raise HTTPException(
+            status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(error)
+        ) from error
 
     return {"status": "success", "status_code": HTTPStatus.OK.value}
 
