@@ -20,7 +20,7 @@ def save_api_key_to_db(user_id: str, hashed_api_key: str, name: str, description
         connection = psycopg2.connect(host=host, database=db, user=user, password=password)
         cursor = connection.cursor()
     except psycopg2.Error as error:
-        raise ConnectionError(error)
+        raise ConnectionError(error) from error
 
     try:
         insert_query = """
@@ -38,7 +38,7 @@ def save_api_key_to_db(user_id: str, hashed_api_key: str, name: str, description
         connection.commit()
     except Exception as error:
         connection.rollback()
-        raise InsertFailedError(error)
+        raise InsertFailedError(error) from error
     finally:
         cursor.close()
         connection.close()
