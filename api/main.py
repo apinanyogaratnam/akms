@@ -6,7 +6,7 @@ from akms_hash import hash_api_key
 from fastapi import Body, FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
-from api.utility import InsertFailedError, QueryFailedError, is_valid_api_key, save_api_key_to_db, disable_api_key, query_api_keys
+from api.utility import InsertFailedError, QueryFailedError, is_valid_api_key, save_api_key_to_db, disable_api_key, query_api_keys, update_api_key
 
 warnings.filterwarnings("ignore")
 
@@ -47,7 +47,21 @@ def get_api_keys(user_id: str) -> dict:
     return {'api_keys': api_keys, "status_code": HTTPStatus.OK.value}
 
 
-# TODO: renaming api key names and descriptions
+class UpdateApiKey(BaseModel):
+    api_key_id: int
+    name: str
+    description: str
+    role: str
+
+
+@app.put("/api_key")
+def update_api_key(item: UpdateApiKey = Body(...)) -> dict:
+    try:
+        update_api_key(item.api_key_id, item.name, item.description, item.role)
+    except Exception as error:
+        raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(error))
+
+    return {"status": "success", "status_code": HTTPStatus.OK.value}
 
 
 class ApiKey(BaseModel):
