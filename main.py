@@ -10,7 +10,7 @@ if __name__ == "__main__":
 
     try:
         port = int(port)
-    except ValueError:
-        raise EnvironmentError(f"Invalid port {port} from environment")
+    except ValueError as e:
+        raise EnvironmentError(f"Invalid port {port} from environment") from e
 
     uvicorn.run("api.main:app", host="0.0.0.0", port=port, reload=os.environ.get("ENVIRONMENT") == "development")
