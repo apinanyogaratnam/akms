@@ -1,4 +1,5 @@
 import warnings
+
 from http import HTTPStatus
 from uuid import uuid4
 
@@ -14,6 +15,8 @@ from api.utility import (
     query_api_keys,
     save_api_key_to_db,
     update_api_key,
+    get_api_key,
+    NotFoundError,
 )
 
 warnings.filterwarnings("ignore")
@@ -53,6 +56,18 @@ def get_api_keys(user_id: str) -> dict:
         raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(error)) from error
 
     return {"api_keys": api_keys, "status_code": HTTPStatus.OK.value}
+
+
+@app.get("/api_key")
+def get_api_key_metadata(api_key_id: int) -> dict:
+    try:
+        api_key = get_api_key(api_key_id)
+    except NotFoundError:
+        return {"api_key": None, "status_code": HTTPStatus.NOT_FOUND.value}
+    except Exception as error:
+        raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(error)) from error
+
+    return {"api_key": api_key, "status_code": HTTPStatus.OK.value}
 
 
 class UpdateApiKey(BaseModel):
