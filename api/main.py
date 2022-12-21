@@ -1,5 +1,4 @@
 import warnings
-
 from http import HTTPStatus
 from uuid import uuid4
 
@@ -9,14 +8,14 @@ from pydantic import BaseModel, Field
 
 from api.utility import (
     InsertFailedError,
+    NotFoundError,
     QueryFailedError,
     disable_api_key,
+    get_api_key,
     is_valid_api_key,
     query_api_keys,
     save_api_key_to_db,
     update_api_key,
-    get_api_key,
-    NotFoundError,
 )
 
 warnings.filterwarnings("ignore")

@@ -36,12 +36,20 @@ def __get_api_keys(user_id: str):
 
 
 def __update_api_key(api_key_id: int):
-    response = client.put("/api_key", json={'api_key_id': api_key_id, 'name': "updated name", 'description': "updated description", "role": "updated role"})
+    response = client.put(
+        "/api_key",
+        json={
+            "api_key_id": api_key_id,
+            "name": "updated name",
+            "description": "updated description",
+            "role": "updated role",
+        },
+    )
     return response.json()
 
 
 def __delete_api_key(api_key_id: int):
-    response = client.delete("/api_key", json={'api_key_id': api_key_id})
+    response = client.delete("/api_key", json={"api_key_id": api_key_id})
     return response.json()
 
 
@@ -59,61 +67,61 @@ def test_create_api_key():
 def test_get_api_key():
     response = __create_api_key()
     response = __get_api_keys("test@test.com")
-    api_key_id = response['api_keys'][0]['api_key_id']
+    api_key_id = response["api_keys"][0]["api_key_id"]
     response = __get_api_key(api_key_id)
 
     api_key = response["api_key"]
 
     assert response["status_code"] == HTTPStatus.OK.value
-    assert 'name' in api_key
-    assert 'description' in api_key
-    assert 'role' in api_key
+    assert "name" in api_key
+    assert "description" in api_key
+    assert "role" in api_key
 
 
 def test_get_api_keys():
     response = __create_api_key()
     response = __get_api_keys("test@test.com")
 
-    assert response['status_code'] == HTTPStatus.OK.value
-    assert isinstance(response['api_keys'], list)
-    assert len(response['api_keys']) > 0
+    assert response["status_code"] == HTTPStatus.OK.value
+    assert isinstance(response["api_keys"], list)
+    assert len(response["api_keys"]) > 0
 
-    for _ in response['api_keys']:
-        assert 'name' in response
-        assert 'description' in response
-        assert 'role' in response
+    for _ in response["api_keys"]:
+        assert "name" in response
+        assert "description" in response
+        assert "role" in response
 
 
 def test_update_api_key():
     response = __create_api_key()
     response = __get_api_keys("test@test.com")
-    api_key_id = response['api_keys'][0]['api_key_id']
+    api_key_id = response["api_keys"][0]["api_key_id"]
     response = __update_api_key(api_key_id)
 
-    api_key = response['api_key']
+    api_key = response["api_key"]
 
-    assert response['status_code'] == HTTPStatus.OK.value
-    assert 'name' in api_key
-    assert 'description' in api_key
-    assert 'role' in api_key
+    assert response["status_code"] == HTTPStatus.OK.value
+    assert "name" in api_key
+    assert "description" in api_key
+    assert "role" in api_key
 
 
 def test_validate_api_key():
     response = __create_api_key()
-    response = client.post("/validate_api_key", json={'api_key': response['api_key']})
+    response = client.post("/validate_api_key", json={"api_key": response["api_key"]})
 
-    assert response['status_code'] == HTTPStatus.OK.value
+    assert response["status_code"] == HTTPStatus.OK.value
     assert response["is_valid_key"]
-    assert 'role' in response
+    assert "role" in response
 
 
 def test_delete_api_key():
     response = __create_api_key()
     response = __create_api_key()
     response = __get_api_keys()
-    api_key_id = response['api_keys'][0]['api_key_id']
+    api_key_id = response["api_keys"][0]["api_key_id"]
     response = __delete_api_key(api_key_id)
 
-    assert response['status_code'] == HTTPStatus.OK.value
+    assert response["status_code"] == HTTPStatus.OK.value
 
-    assert response['status'] == 'success'
+    assert response["status"] == "success"
