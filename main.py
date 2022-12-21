@@ -1,5 +1,16 @@
 import uvicorn
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 if __name__ == "__main__":
-    uvicorn.run("api.main:app", host="0.0.0.0", port=os.environ.get('PORT'), reload=os.environ.get('ENVIRONMENT') == 'development')
+    port = os.environ.get('PORT')
+
+    try:
+        port = int(port)
+    except ValueError:
+        raise EnvironmentError(f'Invalid port {port} from environment')
+
+    uvicorn.run("api.main:app", host="0.0.0.0", port=port, reload=os.environ.get('ENVIRONMENT') == 'development')
