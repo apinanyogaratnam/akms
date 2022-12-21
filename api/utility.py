@@ -85,7 +85,7 @@ def query_api_keys(user_id: str) -> List[dict]:
     return pd.read_sql(query_api_keys, connection, params=(user_id,)).to_dict(orient="records")
 
 
-def update_api_key(api_key_id: int, name: str, description: str, role: str) -> None:
+def update_api_key(api_key_id: int, name: str, description: str, role: str) -> dict:
     connection = psycopg2.connect(host=host, database=db, user=user, password=password)
     cursor = connection.cursor()
     update_api_key_query = """
@@ -99,6 +99,8 @@ def update_api_key(api_key_id: int, name: str, description: str, role: str) -> N
     connection.commit()
     cursor.close()
     connection.close()
+
+    return {'name': name, 'description': description, 'role': role}
 
 
 class NotFoundError(Exception):

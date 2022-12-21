@@ -80,11 +80,11 @@ class UpdateApiKey(BaseModel):
 @app.put("/api_key")
 def update_api_key_metadata(item: UpdateApiKey = Body(...)) -> dict:
     try:
-        update_api_key(item.api_key_id, item.name, item.description, item.role)
+        api_key = update_api_key(item.api_key_id, item.name, item.description, item.role)
     except Exception as error:
         raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(error)) from error
 
-    return {"status": "success", "status_code": HTTPStatus.OK.value}
+    return {"api_key": api_key, "status_code": HTTPStatus.OK.value}
 
 
 class ApiKey(BaseModel):
@@ -101,7 +101,7 @@ class DeleteApiKey(BaseModel):
     api_key_id: int
 
 
-@app.delete("/delete_api_key")
+@app.delete("/api_key")
 def delete_api_key(item: DeleteApiKey = Body(...)) -> dict:
     try:
         disable_api_key(item.api_key_id)
