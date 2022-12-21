@@ -86,10 +86,10 @@ def test_get_api_keys():
     assert isinstance(response["api_keys"], list)
     assert len(response["api_keys"]) > 0
 
-    for _ in response["api_keys"]:
-        assert "name" in response
-        assert "description" in response
-        assert "role" in response
+    for api_key in response["api_keys"]:
+        assert "name" in api_key
+        assert "description" in api_key
+        assert "role" in api_key
 
 
 def test_update_api_key():
