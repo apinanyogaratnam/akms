@@ -21,6 +21,7 @@ services:
       - DATABASE_PASSWORD=test
       - DATABASE_NAME=test
       - ENVIRONMENT=production
+      - PORT=8000
 
 volumes:
   postgresql_data:
