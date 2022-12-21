@@ -49,7 +49,7 @@ def __update_api_key(api_key_id: int):
 
 
 def __delete_api_key(api_key_id: int):
-    response = client.delete("/api_key", json={"api_key_id": api_key_id})
+    response = client.delete(f"/api_key?api_key_id={api_key_id}")
     return response.json()
 
 
@@ -118,7 +118,7 @@ def test_validate_api_key():
 def test_delete_api_key():
     response = __create_api_key()
     response = __create_api_key()
-    response = __get_api_keys()
+    response = __get_api_keys("test@test.com")
     api_key_id = response["api_keys"][0]["api_key_id"]
     response = __delete_api_key(api_key_id)
 

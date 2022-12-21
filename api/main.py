@@ -96,14 +96,10 @@ def validate_api_key(item: ApiKey = Body(...)) -> dict:
     return {"is_valid_key": is_valid_key, "role": role, "status_code": HTTPStatus.OK.value}
 
 
-class DeleteApiKey(BaseModel):
-    api_key_id: int
-
-
 @app.delete("/api_key")
-def delete_api_key(item: DeleteApiKey = Body(...)) -> dict:
+def delete_api_key(api_key_id: int) -> dict:
     try:
-        disable_api_key(item.api_key_id)
+        disable_api_key(api_key_id)
     except Exception as error:
         raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(error)) from error
 
