@@ -61,7 +61,7 @@ def test_create_api_key():
 
     assert actual_status_code == HTTPStatus.CREATED.value
     assert isinstance(actual_api_key, str)
-    assert len(response.json()["api_key"]) == 36
+    assert len(response["api_key"]) == 36
 
 
 def test_get_api_key():
