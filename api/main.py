@@ -55,7 +55,7 @@ class UpdateApiKey(BaseModel):
 
 
 @app.put("/api_key")
-def update_api_key(item: UpdateApiKey = Body(...)) -> dict:
+def update_api_key_metadata(item: UpdateApiKey = Body(...)) -> dict:
     try:
         update_api_key(item.api_key_id, item.name, item.description, item.role)
     except Exception as error:
