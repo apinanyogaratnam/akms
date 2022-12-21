@@ -1,6 +1,6 @@
 FROM --platform=linux/amd64 python:3.10.4
 
-LABEL org.opencontainers.image.source=https://github.com/apinanyogaratnam/akms
+LABEL org.opencontainers.image.source=https://github.com/apinanyogaratnam/akms-service
 
 WORKDIR /app
 
