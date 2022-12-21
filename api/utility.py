@@ -91,10 +91,33 @@ def update_api_key(api_key_id: int, name: str, description: str, role: str) -> N
     update_api_key_query = """
         UPDATE api_keys
         SET name = %s, description = %s, role = %s
-        WHERE api_key_id = %s;
+        WHERE api_key_id = %s
+        AND is_active = True;
     """
     record_to_insert = (name, description, role, api_key_id)
     cursor.execute(update_api_key_query, record_to_insert)
     connection.commit()
     cursor.close()
     connection.close()
+
+
+class NotFoundError(Exception):
+    pass
+
+
+def get_api_key(api_key_id: int) -> dict:
+    connection = psycopg2.connect(host=host, database=db, user=user, password=password)
+    query_api_key = '''
+        SELECT
+            name,
+            description,
+            role
+        FROM api_keys
+        WHERE api_key_id = %s
+        AND is_active = True;
+    '''
+
+    if result := pd.read_sql(query_api_key, connection, params=(api_key_id,)).to_dict(orient='records'):
+        return result[0]
+
+    raise NotFoundError(f'Api Key with api_key_id: {api_key_id} not found in our records.')
