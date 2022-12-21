@@ -3,6 +3,9 @@ from http import HTTPStatus
 from fastapi.testclient import TestClient
 
 from api.main import app
+import warnings
+
+warnings.filterwarnings("ignore")
 
 client = TestClient(app)
 
