@@ -108,7 +108,7 @@ def test_update_api_key():
 
 def test_validate_api_key():
     response = __create_api_key()
-    response = client.post("/validate_api_key", json={"api_key": response["api_key"]})
+    response = client.post("/validate_api_key", json={"api_key": response["api_key"]}).json()
 
     assert response["status_code"] == HTTPStatus.OK.value
     assert response["is_valid_key"]
