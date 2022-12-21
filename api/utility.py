@@ -84,3 +84,18 @@ def query_api_keys(user_id: str) -> List[dict]:
     return pd.read_sql(query_api_keys, connection, params=(user_id,)).to_dict(
         orient='records'
     )
+
+
+def update_api_key(api_key_id: int, name: str, description: str, role: str) -> None:
+    connection = psycopg2.connect(host=host, database=db, user=user, password=password)
+    cursor = connection.cursor()
+    update_api_key_query = '''
+        UPDATE api_keys
+        SET name = %s, description = %s, role = %s
+        WHERE api_key_id = %s;
+    '''
+    record_to_insert = (name, description, role, api_key_id)
+    cursor.execute(update_api_key_query, record_to_insert)
+    connection.commit()
+    cursor.close()
+    connection.close()
