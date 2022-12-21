@@ -6,7 +6,15 @@ from akms_hash import hash_api_key
 from fastapi import Body, FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
-from api.utility import InsertFailedError, QueryFailedError, is_valid_api_key, save_api_key_to_db, disable_api_key, query_api_keys, update_api_key
+from api.utility import (
+    InsertFailedError,
+    QueryFailedError,
+    disable_api_key,
+    is_valid_api_key,
+    query_api_keys,
+    save_api_key_to_db,
+    update_api_key,
+)
 
 warnings.filterwarnings("ignore")
 
@@ -15,7 +23,7 @@ app = FastAPI()
 
 @app.get("/")
 def home():
-    return {'status': 'running'}
+    return {"status": "running"}
 
 
 class Item(BaseModel):
@@ -33,9 +41,7 @@ def create_api_key(item: Item = Body(...)) -> dict:
     try:
         save_api_key_to_db(item.user_id, hashed_api_key, item.name, item.description, item.role)
     except (InsertFailedError, ConnectionError) as error:
-        raise HTTPException(
-            status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(error)
-        ) from error
+        raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(error)) from error
     return {"api_key": api_key, "status_code": HTTPStatus.CREATED.value}
 
 
@@ -44,11 +50,9 @@ def get_api_keys(user_id: str) -> dict:
     try:
         api_keys = query_api_keys(user_id)
     except (ConnectionError, QueryFailedError) as error:
-        raise HTTPException(
-            status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(error)
-        ) from error
+        raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(error)) from error
 
-    return {'api_keys': api_keys, "status_code": HTTPStatus.OK.value}
+    return {"api_keys": api_keys, "status_code": HTTPStatus.OK.value}
 
 
 class UpdateApiKey(BaseModel):
@@ -63,9 +67,7 @@ def update_api_key_metadata(item: UpdateApiKey = Body(...)) -> dict:
     try:
         update_api_key(item.api_key_id, item.name, item.description, item.role)
     except Exception as error:
-        raise HTTPException(
-            status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(error)
-        ) from error
+        raise HTTPException(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, detail=str(error)) from error
 
     return {"status": "success", "status_code": HTTPStatus.OK.value}
 

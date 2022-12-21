@@ -1,7 +1,8 @@
+from typing import List, Tuple
+
 import pandas as pd
 import psycopg2
 from akms_hash import hash_api_key
-from typing import Tuple, List
 
 from config import db, host, password, user
 
@@ -75,25 +76,23 @@ def disable_api_key(api_key_id: int) -> None:
 
 def query_api_keys(user_id: str) -> List[dict]:
     connection = psycopg2.connect(host=host, database=db, user=user, password=password)
-    query_api_keys = '''
+    query_api_keys = """
         SELECT api_key_id, name, description, role, EXTRACT(EPOCH FROM created)::bigint AS created
         FROM api_keys
         WHERE user_id = %s
         AND is_active = TRUE;
-    '''
-    return pd.read_sql(query_api_keys, connection, params=(user_id,)).to_dict(
-        orient='records'
-    )
+    """
+    return pd.read_sql(query_api_keys, connection, params=(user_id,)).to_dict(orient="records")
 
 
 def update_api_key(api_key_id: int, name: str, description: str, role: str) -> None:
     connection = psycopg2.connect(host=host, database=db, user=user, password=password)
     cursor = connection.cursor()
-    update_api_key_query = '''
+    update_api_key_query = """
         UPDATE api_keys
         SET name = %s, description = %s, role = %s
         WHERE api_key_id = %s;
-    '''
+    """
     record_to_insert = (name, description, role, api_key_id)
     cursor.execute(update_api_key_query, record_to_insert)
     connection.commit()
